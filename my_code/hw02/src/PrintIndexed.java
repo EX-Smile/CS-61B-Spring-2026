@@ -7,7 +7,7 @@ public class PrintIndexed {
       // TODO: Fill in this function
       char[] arr = s.toCharArray();
       for (int i = 0; i < arr.length; i++) {
-         System.out.print(arr[i]);
+         System.out.print(s.charAt(i));//用charAt()方法
          System.out.print(arr.length -1 - i);
       }
       System.out.println();
