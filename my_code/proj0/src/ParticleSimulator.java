@@ -12,7 +12,9 @@ public class ParticleSimulator {
             'f', ParticleFlavor.FIRE,
             '.', ParticleFlavor.EMPTY,
             'n', ParticleFlavor.FOUNTAIN,
-            'z', ParticleFlavor.FLOWER
+            'z', ParticleFlavor.FLOWER,
+            'c', ParticleFlavor.CLOUD,
+            'o', ParticleFlavor.ORANGE
     );
 
     public Particle[][] particles;
