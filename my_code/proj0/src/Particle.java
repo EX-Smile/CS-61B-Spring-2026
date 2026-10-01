@@ -57,15 +57,24 @@ public class Particle {
         if (flavor == ParticleFlavor.FOUNTAIN) {
             return Color.CYAN;
         }
+        if (flavor == ParticleFlavor.FLOWER) {
+            double ratio = (double) Math.max(0, Math.min(lifespan, FLOWER_LIFESPAN)) / FLOWER_LIFESPAN;
+            int r = 120 + (int) Math.round((255 - 120) * ratio);
+            int g = 70 + (int) Math.round((141 - 70) * ratio);
+            int b = 80 + (int) Math.round((161 - 80) * ratio);
+            return new Color(r, g, b);
+        }
         if (flavor == ParticleFlavor.PLANT) {
-            return new Color(0, 255, 0);
+            double ratio = (double) Math.max(0, Math.min(lifespan, PLANT_LIFESPAN)) / PLANT_LIFESPAN;
+            int g = 120 + (int) Math.round((255 - 120) * ratio);
+            return new Color(0, g, 0);
         }
         if (flavor == ParticleFlavor.FIRE) {
-            return new Color(255, 0, 0);
+            double ratio = (double) Math.max(0, Math.min(lifespan, FIRE_LIFESPAN)) / FIRE_LIFESPAN;
+            int r = (int) Math.round(255 * ratio);
+            return new Color(r, 0, 0);
         }
-        if (flavor == ParticleFlavor.FLOWER) {
-            return new Color(255, 141, 161);
-        }
+
         if (flavor == ParticleFlavor.CLOUD) {
             return new Color(255, 255, 255);
         }
@@ -118,6 +127,34 @@ public class Particle {
     }
 
     public void burn(Map<Direction, Particle> neighbors) {
+        if (neighbors.get(Direction.UP).flavor == ParticleFlavor.PLANT || neighbors.get(Direction.UP).flavor == ParticleFlavor.FLOWER) {
+            int n = StdRandom.uniformInt(5);
+            if (n == 0 || n == 1) {
+                neighbors.get(Direction.UP).flavor = ParticleFlavor.FIRE;
+                neighbors.get(Direction.UP).lifespan = FIRE_LIFESPAN;
+            }
+        }
+        if (neighbors.get(Direction.DOWN).flavor == ParticleFlavor.PLANT || neighbors.get(Direction.DOWN).flavor == ParticleFlavor.FLOWER) {
+            int n = StdRandom.uniformInt(5);
+            if (n == 0 || n == 1) {
+                neighbors.get(Direction.DOWN).flavor = ParticleFlavor.FIRE;
+                neighbors.get(Direction.DOWN).lifespan = FIRE_LIFESPAN;
+            }
+        }
+        if (neighbors.get(Direction.LEFT).flavor == ParticleFlavor.PLANT || neighbors.get(Direction.LEFT).flavor == ParticleFlavor.FLOWER) {
+            int n = StdRandom.uniformInt(5);
+            if (n == 0 || n == 1) {
+                neighbors.get(Direction.LEFT).flavor = ParticleFlavor.FIRE;
+                neighbors.get(Direction.LEFT).lifespan = FIRE_LIFESPAN;
+            }
+        }
+        if (neighbors.get(Direction.RIGHT).flavor == ParticleFlavor.PLANT || neighbors.get(Direction.RIGHT).flavor == ParticleFlavor.FLOWER) {
+            int n = StdRandom.uniformInt(5);
+            if (n == 0 || n == 1) {
+                neighbors.get(Direction.RIGHT).flavor = ParticleFlavor.FIRE;
+                neighbors.get(Direction.RIGHT).lifespan = FIRE_LIFESPAN;
+            }
+        }
     }
 
     public void action(Map<Direction, Particle> neighbors) {
@@ -132,6 +169,9 @@ public class Particle {
         }
         if (this.flavor == ParticleFlavor.FLOWER || this.flavor == ParticleFlavor.PLANT) {
             grow(neighbors);
+        }
+        if (this.flavor == ParticleFlavor.FIRE) {
+            burn(neighbors);
         }
     }
 }
