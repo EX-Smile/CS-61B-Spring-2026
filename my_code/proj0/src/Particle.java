@@ -1,3 +1,5 @@
+import edu.princeton.cs.algs4.StdRandom;
+
 import java.awt.*;
 import java.util.Map;
 
@@ -67,6 +69,14 @@ public class Particle {
     }
 
     public void flow(Map<Direction, Particle> neighbors) {
+        int chance = StdRandom.uniformInt(3);
+        if (chance == 0) {}
+        else if (chance == 1 && neighbors.get(Direction.LEFT).flavor == ParticleFlavor.EMPTY) {
+            moveInto(neighbors.get(Direction.LEFT));
+        }
+        else if (chance == 2 && neighbors.get(Direction.RIGHT).flavor == ParticleFlavor.EMPTY) {
+            moveInto(neighbors.get(Direction.RIGHT));
+        }
     }
 
     public void grow(Map<Direction, Particle> neighbors) {
@@ -81,6 +91,9 @@ public class Particle {
         }
         if (this.flavor != ParticleFlavor.BARRIER) {
             fall(neighbors);
+        }
+        if (this.flavor == ParticleFlavor.WATER) {
+            flow(neighbors);
         }
     }
 }
