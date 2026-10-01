@@ -80,6 +80,20 @@ public class Particle {
     }
 
     public void grow(Map<Direction, Particle> neighbors) {
+        int chance = StdRandom.uniformInt(10);
+        if (chance == 0 && neighbors.get(Direction.LEFT).flavor == ParticleFlavor.EMPTY) {
+        neighbors.get(Direction.LEFT).flavor = this.flavor;
+        neighbors.get(Direction.LEFT).lifespan = this.lifespan;
+        }
+        else if (chance == 1 && neighbors.get(Direction.RIGHT).flavor == ParticleFlavor.EMPTY) {
+            neighbors.get(Direction.RIGHT).flavor = this.flavor;
+            neighbors.get(Direction.RIGHT).lifespan = this.lifespan;
+        }
+        else if (chance == 2 && neighbors.get(Direction.UP).flavor == ParticleFlavor.EMPTY) {
+            neighbors.get(Direction.UP).flavor = this.flavor;
+            neighbors.get(Direction.UP).lifespan = this.lifespan;
+        }
+        else {}
     }
 
     public void burn(Map<Direction, Particle> neighbors) {
@@ -94,6 +108,9 @@ public class Particle {
         }
         if (this.flavor == ParticleFlavor.WATER) {
             flow(neighbors);
+        }
+        if (this.flavor == ParticleFlavor.FLOWER || this.flavor == ParticleFlavor.PLANT) {
+            grow(neighbors);
         }
     }
 }
